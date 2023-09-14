@@ -3,7 +3,7 @@
   import { slide } from "svelte/transition";
 
   import { sineIn, sineInOut, sineOut } from "svelte/easing";
-  const dueDate = "2023-09-14 17:39:00";
+  const dueDate = "2023-09-28 11:59:00";
   const dueTimestamp = new Date(dueDate);
 
   let remainingTime = {
@@ -66,13 +66,13 @@
 
 <div class="clock">
   <div>
-    <div class="card">
+    <p class="card">
       {#key remainingTime.days}
         <span transition:slide={{ ease: sineInOut }}>
           {formatNumber(remainingTime.days)}
         </span>
       {/key}
-    </div>
+    </p>
     <p class="time-label">days</p>
   </div>
   <div>
@@ -111,6 +111,13 @@
 </div>
 
 <style>
+  .clock {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    place-content: center;
+    margin-bottom: 8rem;
+  }
   .time-over-message {
     opacity: 0;
     position: absolute;
@@ -122,7 +129,6 @@
     align-items: center;
     padding: 4rem;
     z-index: 2;
-
     border: 2px solid hsl(var(--crl-soft-red));
     border-radius: 20px;
     container-type: inline-size;
@@ -134,15 +140,7 @@
 
   .timeOver {
     color: white;
-    opacity: 0.9;
-  }
-
-  .clock {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    place-content: center;
-    margin-bottom: 8rem;
+    opacity: 0.8;
   }
 
   .clock div {
