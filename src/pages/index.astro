@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Clock from '../components/svelte/Clock.svelte';
+---
+
+<Layout title="Launch Countdown Timer">
+	<main>
+
+		<section >
+			<Clock client:only="svelte"/>
+		</section>
+
+	</main>
+</Layout>
+
+<style>
+	main {
+		display: grid;
+		width: 100%;
+		height: 100vh;
+		place-items: center;
+		background: no-repeat top/80% url('images/bg-stars.svg'), 
+		no-repeat bottom/100% url('images/pattern-hills.svg');
+		font-family: var(--ff-primary);
+		background-color: hsl(var(--crl-dark-blue));
+	}
+	
+	section {
+		width: 70%;
+		margin-inline: auto;
+	}
+</style>
