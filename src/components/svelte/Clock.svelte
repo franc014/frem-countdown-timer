@@ -1,21 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { fly, fade, slide, scale, blur } from "svelte/transition";
-  import { flip } from "svelte/animate";
-  import {
-    backIn,
-    backOut,
-    bounceIn,
-    bounceInOut,
-    bounceOut,
-    circOut,
-    quadOut,
-    quartOut,
-    sineIn,
-    sineInOut,
-    sineOut,
-  } from "svelte/easing";
-  const dueDate = "2023-09-14 07:39:00";
+  import { slide } from "svelte/transition";
+
+  import { sineIn, sineInOut, sineOut } from "svelte/easing";
+  const dueDate = "2023-09-14 17:39:00";
   const dueTimestamp = new Date(dueDate);
 
   let remainingTime = {
@@ -25,8 +13,7 @@
     seconds: 0,
   };
 
-  let timeOverMessage =
-    "The time to purchase my beautiful product is over! :-(";
+  let timeOverMessage = "We've make it to the moon!! 🥳";
   let timeOver = false;
 
   function resetTimer() {
@@ -80,13 +67,13 @@
 <div class="clock">
   <div>
     <div class="card">
-      <div class="card-before" />
       {#key remainingTime.days}
         <span transition:slide={{ ease: sineInOut }}>
           {formatNumber(remainingTime.days)}
         </span>
       {/key}
     </div>
+    <p class="time-label">days</p>
   </div>
   <div>
     <p class="card">
@@ -96,6 +83,7 @@
         </span>
       {/key}
     </p>
+    <p class="time-label">hours</p>
   </div>
   <div>
     <p class="card">
@@ -105,6 +93,7 @@
         </span>
       {/key}
     </p>
+    <p class="time-label">minutes</p>
   </div>
   <div>
     <p class="card">
@@ -114,17 +103,38 @@
         </span>
       {/key}
     </p>
+    <p class="time-label">seconds</p>
   </div>
 </div>
-<div class="time-over-message" class:timeOver>{timeOverMessage}</div>
+<div class="time-over-message" class:timeOver>
+  <p>{timeOverMessage}</p>
+</div>
 
 <style>
   .time-over-message {
     opacity: 0;
+    position: absolute;
+    inset: -20px 0 0 0;
+    width: 100%;
+    height: 90%;
+    background: hsl(var(--crl-dark-desat-blue));
+    display: flex;
+    align-items: center;
+    padding: 4rem;
+    z-index: 2;
+
+    border: 2px solid hsl(var(--crl-soft-red));
+    border-radius: 20px;
+    container-type: inline-size;
   }
+  .time-over-message p {
+    font-size: 8cqi;
+    max-width: fit-content;
+  }
+
   .timeOver {
     color: white;
-    opacity: 1;
+    opacity: 0.9;
   }
 
   .clock {
@@ -132,6 +142,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     place-content: center;
+    margin-bottom: 8rem;
   }
 
   .clock div {
@@ -153,132 +164,41 @@
 
     border-bottom: 10px solid hsl(var(--crl-darker-blue));
     border-radius: 20px;
-    background-color: hsl(var(--crl-darker-blue));
+
     container-type: inline-size;
     position: relative;
 
     z-index: 1;
-  }
-
-  .card-before {
-    position: absolute;
-    display: block;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
-
-  .card-before::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-    background-color: blueviolet;
-    clip-path: circle(1rem at left);
-  }
-  .card-before::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.3;
-    background-color: hsl(var(--crl-dark-blue));
-    clip-path: circle(1rem at right);
-    border: 1px solid blue;
+    margin-bottom: 1rem;
   }
 
   .card::before {
     content: "";
-
-    background-repeat: no-repeat;
     position: absolute;
-    inset: 0;
-
-    opacity: 0.6;
     display: block;
+    inset: 0;
+    width: 100%;
+    height: 106%;
+
+    background: url("/images/number-deco.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 0;
+    top: 50%;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    border-bottom: 1px solid grey;
-  }
-
-  .card::after {
-    content: "";
-
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    /* background: radial-gradient(
-      circle at 0 50%,
-      #232430 1rem,
-      var(--_corner-color, transparent) calc(0.5rem + 1px)
-    ); */
-    background-color: hsl(120, 40%, 40%);
-    opacity: 0.6;
-    display: block;
-    width: 100%;
-    height: 50%;
-    z-index: -2;
-    clip-path: path("M16 0 H204 v1 h0 -188");
-  }
-
-  /* .card::after {
-    content: "";
-
+    background: url("/images/number-deco-down.svg");
     background-repeat: no-repeat;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(
-      circle at 0% 0%,
-      green 1rem,
-      var(--_corner-color, blue) calc(1rem + 2px)
-    );
-    opacity: 0.6;
-    display: block;
-    width: 100%;
-    height: 50%;
-    z-index: -1;
-  } */
-
-  /* .deco-up {
-    width: 100%;
-    height: 50%;
-
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-bottom: 1px solid blueviolet;
+    background-size: contain;
+    margin-top: -5px;
   }
-
-  .deco-up::before {
-    content: url("images/deco-left.svg");
-    position: absolute;
-    left: 0;
-    bottom: -7px;
-  }
-
-  .deco-up::after {
-    content: url("images/deco-right.svg");
-    position: absolute;
-    right: 0;
-    bottom: -7px;
-  } */
-  /* div p:before {
-    content: url("/images/number-deco.svg");
-    background-color: lightcoral;
-    width: 100%;
-    height: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    z-index: -1;
-  } */
 
   .card span {
     font-size: 40cqi;
@@ -288,5 +208,12 @@
     backface-visibility: hidden;
     font-feature-settings: "tnum";
     text-shadow: 2px 2px hsl(var(--crl-dark-blue));
+  }
+
+  .time-label {
+    color: hsl(var(--crl-grayish-blue));
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
+    font-size: 0.8rem;
   }
 </style>
