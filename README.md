@@ -29,7 +29,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Github repo](https://github.com/franc014/frem-countdown-timer)
-- Live Site URL: https://launch-countdown-timer-b5ypxpzdn-franc014.vercel.app/
+- Live Site URL: https://launch-countdown-timer-lac.vercel.app/
 
 ## My process
 
