@@ -2,8 +2,8 @@
   import { onMount } from "svelte";
   import { slide } from "svelte/transition";
 
-  import { sineIn, sineInOut, sineOut } from "svelte/easing";
-  const dueDate = "2023-09-28 11:59:00";
+  import { sineInOut } from "svelte/easing";
+  const dueDate = "2023-11-08 11:59:00";
   const dueTimestamp = new Date(dueDate);
 
   let remainingTime = {
@@ -13,7 +13,7 @@
     seconds: 0,
   };
 
-  let timeOverMessage = "We've make it to the moon!! 🥳";
+  let timeOverMessage = "We've made it to the moon!! 🥳";
   let timeOver = false;
 
   function resetTimer() {
@@ -21,6 +21,10 @@
     remainingTime.hours = 0;
     remainingTime.minutes = 0;
     remainingTime.seconds = 0;
+  }
+
+  function startAgain() {
+    console.log("sa");
   }
 
   onMount(function () {
@@ -108,6 +112,7 @@
 </div>
 <div class="time-over-message" class:timeOver>
   <p>{timeOverMessage}</p>
+  <button on:click={startAgain}>START AGAIN</button>
 </div>
 
 <style>
@@ -116,17 +121,17 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     place-content: center;
-    margin-bottom: 8rem;
   }
   .time-over-message {
     opacity: 0;
     position: absolute;
-    inset: -20px 0 0 0;
+    inset: 20px 0 0 0;
     width: 100%;
-    height: 90%;
+    height: 100%;
     background: hsl(var(--crl-dark-desat-blue));
-    display: flex;
+
     align-items: center;
+    justify-content: center;
     padding: 4rem;
     z-index: 2;
     border: 2px solid hsl(var(--crl-soft-red));
@@ -138,9 +143,17 @@
     max-width: fit-content;
   }
 
+  .time-over-message button {
+    cursor: pointer;
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    letter-spacing: 0.2rem;
+    border-radius: 0.5rem;
+  }
+
   .timeOver {
     color: white;
-    opacity: 0.8;
+    opacity: 0.9;
   }
 
   .clock div {
