@@ -14,8 +14,6 @@ This is a solution to the [Launch countdown timer challenge on Frontend Mentor](
 - [Author](#author)
 
 
-
-
 ## Overview
 
 ### The challenge
