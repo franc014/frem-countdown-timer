@@ -3,8 +3,25 @@
   import { slide } from "svelte/transition";
 
   import { sineInOut } from "svelte/easing";
-  const dueDate = "2023-11-08 11:59:00";
-  const dueTimestamp = new Date(dueDate);
+
+  const stopDate = "2023-10-04 23:59:00";
+  let stopTimestamp = new Date(stopDate);
+
+  function setStopTimestamp() {
+    const now = new Date();
+    const addingDays = 15;
+    const days = now.getDate();
+    const d = new Date(now.setDate(days + addingDays));
+
+    const nDay = d.getDate();
+    const nMonth = d.getMonth();
+    const nYear = d.getFullYear();
+
+    const dueDate = `${nYear}-${nMonth + 1}-${nDay} 23:59:00`;
+    const dueTimestamp = new Date(dueDate);
+
+    return dueTimestamp;
+  }
 
   let remainingTime = {
     days: 0,
@@ -24,10 +41,12 @@
   }
 
   function startAgain() {
-    console.log("sa");
+    stopTimestamp = setStopTimestamp();
+    timeOver = false;
+    runCounter();
   }
 
-  onMount(function () {
+  function runCounter() {
     const interval = setInterval(() => {
       setRemainingTime();
       if (remainingTime.seconds < 0) {
@@ -40,7 +59,9 @@
     return () => {
       clearInterval(interval);
     };
-  });
+  }
+
+  onMount(runCounter);
 
   function formatNumber(number) {
     return number < 10 ? `0${number}` : number;
@@ -48,8 +69,7 @@
 
   function setRemainingTime() {
     const currentTimestamp = new Date();
-
-    const remainderTimestamp = dueTimestamp - currentTimestamp;
+    const remainderTimestamp = stopTimestamp - currentTimestamp;
 
     const seconds = Math.round(remainderTimestamp / 1000);
     const remainingSeconds = seconds % 60;
